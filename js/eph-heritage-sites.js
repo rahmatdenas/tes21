@@ -303,29 +303,7 @@ function renderDynamicDataInPanel(qid) {
       return a.sortYear - b.sortYear;
     });
 
-    let tautanSuntingEvent = ` <a href="${wikiBaseUrl}#P793" target="_blank" class="sunting-link" title="Sunting peristiwa di Wikidata">[Sunting]</a>`;
-
-    record.events.forEach(ev => {
-      let capLabel = ev.label.charAt(0).toUpperCase() + ev.label.slice(1);
-      let timeText = ev.time ? ev.time : ''; 
-      html += `<p>${capLabel}: ${timeText}${tautanSuntingEvent}</p>`;
-    });
-  }
-
-  // --- URUTAN 2: STATUS (KONDISI - P5817) ---
-  if (record.kondisi) {
-    let capKondisi = record.kondisi.charAt(0).toLowerCase() + record.kondisi.slice(1);
-    let tautanSuntingKondisi = ` <a href="${wikiBaseUrl}#P5817" target="_blank" class="sunting-link" title="Sunting kondisi di Wikidata">[Sunting]</a>`;
-    html += `<p>Kondisi: ${capKondisi}${tautanSuntingKondisi}</p>`;
-  }
-
-  // --- URUTAN 3: KAPASITAS JEMAAH (P1083) ---
-  if (record.kapasitas) {
-    // Format angka agar lebih rapi (contoh: 1000 menjadi 1.000)
-    let formatAngka = parseInt(record.kapasitas).toLocaleString('id-ID');
-    let tautanSuntingKapasitas = ` <a href="${wikiBaseUrl}#P1083" target="_blank" class="sunting-link" title="Sunting kapasitas di Wikidata">[Sunting]</a>`;
-    html += `<p>Kapasitas: ${formatAngka} jemaah${tautanSuntingKapasitas}</p>`;
-  }
+ cord.events.forEach(ev => {
 
   // --- URUTAN 4: TAUTAN TAMBAHKAN DATA LAINNYA (Tampil Default) ---
   let tautanTambah = `<p><a href="${wikiBaseUrl}" target="_blank" class="sunting-linktambah" title="Tambahkan data di Wikidata">Tambahkan data lainnya</a></p>`;
@@ -685,13 +663,11 @@ let type = DESIGNATION_TYPES[designationQid];
 let wikiUrlTahun = `https://www.wikidata.org/wiki/${qid}#P571`; 
 
 if (record.tahunBerdiri) {
-  let tautanSunting = ` <a href="${wikiUrlTahun}" target="_blank" class="sunting-link" title="Sunting tahun berdiri di Wikidata">[Sunting]</a>`;
-  
-  infoTahunHtml = `<p>Didirikan: ${record.tahunBerdiri}${tautanSunting}</p>`;
+  let tautanSunting = `<a href="${wikiUrlTahun}" target="_blank" class="sunting-link" title="Sunting tahun berdiri di Wikidata">${IKON_SUNTING}</a>`;
+  infoTahunHtml = `<p>Berdiri sejak: ${record.tahunBerdiri}${tautanSunting}</p>`;
 } else {
-  let tautanTambah = ` <a href="${wikiUrlTahun}" target="_blank" class="sunting-link" title="Tambahkan tahun berdiri di Wikidata">[Tambahkan]</a>`;
-  
-  // Membungkus teks "Data belum tersedia" dengan span untuk memberikan styling
+  // Wikipedia juga menggunakan ikon pensil yang sama untuk mengisi data kosong di infobox
+  let tautanTambah = `<a href="${wikiUrlTahun}" target="_blank" class="sunting-link" title="Tambahkan tahun berdiri di Wikidata">${IKON_SUNTING}</a>`;
   infoTahunHtml = `<p>Didirikan: <span style="font-style: italic; color: #888;">Data belum tersedia</span>${tautanTambah}</p>`;
 }
 
